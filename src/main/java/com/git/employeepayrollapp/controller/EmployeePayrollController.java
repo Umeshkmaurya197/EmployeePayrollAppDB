@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("employeepayrollservice")
 public class EmployeePayrollController {
@@ -17,7 +19,7 @@ public class EmployeePayrollController {
 
     //Curl - http://localhost:8080/employeepayrollservice/create
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> addEmployeePayrollData(@RequestBody EmployeePayrollDTO employeePayrollDTO) {
+    public ResponseEntity<ResponseDTO> addEmployeePayrollData(@Valid @RequestBody EmployeePayrollDTO employeePayrollDTO) {
         ResponseDTO responseDTO = new ResponseDTO("Successfully added ", employeePayrollService.addEmployeePayrollData(employeePayrollDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
