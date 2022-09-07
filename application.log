@@ -413,3 +413,6 @@ Update your application's configuration. The following values are valid:
 2022-09-07 01:36:41 [INFO][restartedMain][o.s.b.d.a.OptionalLiveReloadServer:59] LiveReload server is running on port 35729
 2022-09-07 01:36:41 [INFO][restartedMain][o.s.b.w.e.t.TomcatWebServer:220] Tomcat started on port(s): 8080 (http) with context path ''
 2022-09-07 01:36:41 [INFO][restartedMain][c.g.e.EmployeePayrollAppApplication:61] Started EmployeePayrollAppApplication in 4.072 seconds (JVM running for 4.609)
+2022-09-07 01:42:47 [INFO][SpringApplicationShutdownHook][o.s.o.j.LocalContainerEntityManagerFactoryBean:651] Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-09-07 01:42:47 [INFO][SpringApplicationShutdownHook][c.z.h.HikariDataSource:350] HikariPool-1 - Shutdown initiated...
+2022-09-07 01:42:47 [INFO][SpringApplicationShutdownHook][c.z.h.HikariDataSource:352] HikariPool-1 - Shutdown completed.
