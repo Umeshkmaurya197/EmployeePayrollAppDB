@@ -2,6 +2,7 @@ package com.git.employeepayrollapp.service;
 
 import com.git.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.git.employeepayrollapp.entity.EmployeePayrollData;
+import com.git.employeepayrollapp.exception.CustomException;
 import com.git.employeepayrollapp.repository.EmployeePayrollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,10 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     */
     @Override
     public EmployeePayrollData addEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO) {
-        try {
-            if (employeePayrollDTO.getEmployeeName() == null || employeePayrollDTO.getSalary() == null) {
-                throw new Exception("Please, provide all employee data values ");
-            } else {
-                EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
-                employeePayrollRepository.save(employeePayrollData);
-                return employeePayrollData;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
+        employeePayrollRepository.save(employeePayrollData);
+        return employeePayrollData;
+
     }
 
     /*
@@ -47,15 +41,11 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Override
     public Optional<EmployeePayrollData> getEmployeePayrollDataById(Long empId) {
-        try {
-            Optional<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findById(empId);
-            if (employeePayrollData.isEmpty()) {
-                throw new Exception("____   Employee id does not exist  ____ ");
-            } else {
-                return employeePayrollRepository.findById(empId);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        Optional<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findById(empId);
+        if (employeePayrollData.isPresent()) {
+            return employeePayrollRepository.findById(empId);
+        } else {
+            throw new CustomException("  Employee id " + empId + " does not exist ");
         }
     }
     /*
@@ -67,15 +57,11 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Override
     public List<EmployeePayrollData> getAllEmployeePayrollData() {
-        try {
-            List<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findAll();
-            if (employeePayrollData.isEmpty()) {
-                throw new Exception("_____  Employee list is empty  _____");
-            } else {
-                return employeePayrollRepository.findAll();
-            }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        List<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findAll();
+        if (employeePayrollData.isEmpty()) {
+            throw new CustomException(" Employee list is empty ");
+        } else {
+            return employeePayrollRepository.findAll();
         }
     }
     /*
@@ -89,16 +75,12 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Override
     public String deleteEmployeePayrollDataById(Long empId) {
-        try {
-            Optional<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findById(empId);
-            if (employeePayrollData.isEmpty()) {
-                throw new Exception("_____  Employee id " + empId + " not found to delete  _____");
-            } else {
-                employeePayrollRepository.deleteById(empId);
-                return "Data Successfully deleted on id " + empId + ".";
-            }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        Optional<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findById(empId);
+        if (employeePayrollData.isPresent()) {
+            employeePayrollRepository.deleteById(empId);
+            return "Data Successfully deleted on id " + empId + ".";
+        } else {
+            throw new CustomException(" Employee id " + empId + " not found to delete ");
         }
     }
 
@@ -111,18 +93,15 @@ public class EmployeePayrollService implements IEmployeePayrollService {
        Exception with msg :  _____  Employee id " + empId + " not found to update  _____
      */
     @Override
-    public String updateEmployeePayrollDataById(Long empId, EmployeePayrollData employeePayrollData) {
-        try {
-            Optional<EmployeePayrollData> employeeData = employeePayrollRepository.findById(empId);
-            if (employeeData.isEmpty()) {
-                throw new Exception("_____  Employee id " + empId + " not found to update  _____");
-            } else {
-                employeePayrollData.setEmpId(empId);
-                employeePayrollRepository.save(employeePayrollData);
-                return " Successfully updated Employee id "+empId+" .";
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public String updateEmployeePayrollDataById(Long empId, EmployeePayrollDTO employeePayrollDTO) {
+        Optional<EmployeePayrollData> employeeData = employeePayrollRepository.findById(empId);
+        if (employeeData.isPresent()) {
+            EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
+            employeePayrollData.setEmpId(empId);
+            employeePayrollRepository.save(employeePayrollData);
+            return " Successfully updated Employee id " + empId + " .";
+        } else {
+            throw new CustomException(" Employee id " + empId + " not found to update  ");
         }
     }
 }

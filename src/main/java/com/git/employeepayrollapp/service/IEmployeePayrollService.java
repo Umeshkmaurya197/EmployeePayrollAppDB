@@ -11,5 +11,5 @@ public interface IEmployeePayrollService {
     public Optional<EmployeePayrollData> getEmployeePayrollDataById(Long empId);
     public List<EmployeePayrollData> getAllEmployeePayrollData() throws Exception;
     public String deleteEmployeePayrollDataById(Long empId);
-    public String updateEmployeePayrollDataById(Long empId,EmployeePayrollData employeePayrollData);
+    public String updateEmployeePayrollDataById(Long empId, EmployeePayrollDTO employeePayrollDTO);
 }

@@ -47,9 +47,8 @@ public class EmployeePayrollController {
 
     //Curl - http://localhost:8080/employeepayrollservice/update/1
     @PutMapping("/update/{empId}")
-    public ResponseEntity<ResponseDTO> updateEmployeePayrollDataById(@PathVariable Long empId, @RequestBody EmployeePayrollData employeePayrollData) {
-        ResponseDTO responseDTO = new ResponseDTO("Based on Employee id " + empId + " Data ", employeePayrollService.updateEmployeePayrollDataById(empId, employeePayrollData));
+    public ResponseEntity<ResponseDTO> updateEmployeePayrollDataById(@PathVariable Long empId, @RequestBody EmployeePayrollDTO employeePayrollDTO) {
+        ResponseDTO responseDTO = new ResponseDTO("Based on Employee id " + empId + " Data ", employeePayrollService.updateEmployeePayrollDataById(empId, employeePayrollDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-
 }
