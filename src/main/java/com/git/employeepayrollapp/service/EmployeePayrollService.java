@@ -25,10 +25,13 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     */
     @Override
     public EmployeePayrollData addEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO) {
-        EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
-        employeePayrollRepository.save(employeePayrollData);
-        return employeePayrollData;
-
+        if (employeePayrollDTO.employeeName == null || employeePayrollDTO.departments == null || employeePayrollDTO.salary == null) {
+            throw new CustomException(" Please, enter correct column names ");
+        } else {
+            EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
+            employeePayrollRepository.save(employeePayrollData);
+            return employeePayrollData;
+        }
     }
 
     /*
@@ -36,24 +39,19 @@ public class EmployeePayrollService implements IEmployeePayrollService {
           then it will search that id into the Data base ,
           if id is there then it will return the Data related to that id,
           But if id is not there then it will return
-          Exception with msg :  ____   Employee id does not exist  ____
+          Exception with msg :  Employee id does not exist
      */
 
     @Override
-    public Optional<EmployeePayrollData> getEmployeePayrollDataById(Long empId) {
-        Optional<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findById(empId);
-        if (employeePayrollData.isPresent()) {
-            return employeePayrollRepository.findById(empId);
-        } else {
-            throw new CustomException("  Employee id " + empId + " does not exist ");
-        }
+    public EmployeePayrollData getEmployeePayrollDataById(Long empId) {
+        return employeePayrollRepository.findById(empId).orElseThrow(() -> new CustomException("  Employee id " + empId + " does not exist "));
     }
     /*
     here getAllEmployeePayrollData method will check in to the Data base
        if all employee data is there then it will return all Employee Data as list
        but, if not find any data and list is empty then it will throw an
-       Exception with msg : _____  Employee list is empty  _____
-     */
+       Exception with msg : Employee list is empty
+    */
 
     @Override
     public List<EmployeePayrollData> getAllEmployeePayrollData() {
@@ -70,8 +68,8 @@ public class EmployeePayrollService implements IEmployeePayrollService {
         if it found that id in to the Data base then it will delete that id's whole data and id also
         and return msg : "Data Successfully deleted on id " + empId + "."
         if not able to find that id then it will throw
-        Exception with msg : _____  Employee id " + empId + " not found to delete  _____
-     */
+        Exception with msg :  Employee id " + empId + " not found to delete
+    */
 
     @Override
     public String deleteEmployeePayrollDataById(Long empId) {
@@ -90,7 +88,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
        if it found that id then it will update new data on that particular id
        then it will return msg : Successfully updated Employee id "+empId+" ."
        and not found that id then it will throw an
-       Exception with msg :  _____  Employee id " + empId + " not found to update  _____
+       Exception with msg :  Employee id " + empId + " not found to update
      */
     @Override
     public String updateEmployeePayrollDataById(Long empId, EmployeePayrollDTO employeePayrollDTO) {
