@@ -33,7 +33,7 @@ public class EmployeePayrollController {
 
     //Curl - http://localhost:8080/employeepayrollservice/getAll
     @GetMapping("/getAll")
-    public ResponseEntity<ResponseDTO> getAllEmployeePayrollData() {
+    public ResponseEntity<ResponseDTO> getAllEmployeePayrollData() throws Exception {
         ResponseDTO responseDTO = new ResponseDTO("All employee payroll data ", employeePayrollService.getAllEmployeePayrollData());
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
