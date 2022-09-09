@@ -1,6 +1,7 @@
 package com.git.employeepayrollapp.service;
 
 import com.git.employeepayrollapp.dto.EmployeePayrollDTO;
+import com.git.employeepayrollapp.email.EmailService;
 import com.git.employeepayrollapp.entity.EmployeePayrollData;
 import com.git.employeepayrollapp.exception.CustomException;
 import com.git.employeepayrollapp.repository.EmployeePayrollRepository;
@@ -12,10 +13,11 @@ import java.util.Optional;
 
 @Service
 public class EmployeePayrollService implements IEmployeePayrollService {
-
     @Autowired
     EmployeePayrollRepository employeePayrollRepository;
 
+    @Autowired
+    EmailService emailService;
     /*
     here addEmployeePayrollData method use to create new employee data
        first it will check that  all the values passed in dto are null or not
@@ -30,6 +32,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
         } else {
             EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
             employeePayrollRepository.save(employeePayrollData);
+            emailService.sendMail(employeePayrollDTO.getEmail(),"Account signup Successfully ","your account has been created on EmployeePayrollService");
             return employeePayrollData;
         }
     }

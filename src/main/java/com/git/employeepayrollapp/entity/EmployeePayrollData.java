@@ -19,6 +19,8 @@ public class EmployeePayrollData {
     private List<String> departments;
     private Long salary;
 
+    private String email;
+
     public EmployeePayrollData() {
     }
 
@@ -26,13 +28,15 @@ public class EmployeePayrollData {
         this.employeeName = employeePayrollDTO.employeeName;
         this.departments = employeePayrollDTO.departments;
         this.salary = employeePayrollDTO.salary;
+        this.email = employeePayrollDTO.email;
     }
 
-    public EmployeePayrollData(Long empId, String employeeName, List<String> departments, Long salary) {
+    public EmployeePayrollData(Long empId, String employeeName, List<String> departments, Long salary, String email) {
         this.empId = empId;
         this.employeeName = employeeName;
         this.departments = departments;
         this.salary = salary;
+        this.email = email;
     }
 
     public Long getEmpId() {
@@ -65,5 +69,13 @@ public class EmployeePayrollData {
 
     public void setSalary(Long salary) {
         this.salary = salary;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

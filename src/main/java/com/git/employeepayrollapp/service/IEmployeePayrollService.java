@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IEmployeePayrollService {
     public EmployeePayrollData addEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO);
     public EmployeePayrollData getEmployeePayrollDataById(Long empId);
-    public List<EmployeePayrollData> getAllEmployeePayrollData() throws Exception;
+    public List<EmployeePayrollData> getAllEmployeePayrollData();
     public String deleteEmployeePayrollDataById(Long empId);
     public String updateEmployeePayrollDataById(Long empId, EmployeePayrollDTO employeePayrollDTO);
 }

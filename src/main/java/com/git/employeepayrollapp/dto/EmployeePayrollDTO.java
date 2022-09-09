@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -17,9 +18,10 @@ public class EmployeePayrollDTO {
 
     public List<String> departments;
     public Long salary;
-
+    @Email
+    public String email;
     @Override
     public String toString() {
-        return "EmployeePayrollDTO{" + "employeeName='" + employeeName + ", salary=" + salary + '}';
+        return "EmployeePayrollDTO{" + "employeeName='" + employeeName + '\'' + ", departments=" + departments + ", salary=" + salary + ", email='" + email + '\'' + '}';
     }
 }
