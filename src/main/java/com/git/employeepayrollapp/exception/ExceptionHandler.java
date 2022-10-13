@@ -10,7 +10,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(CustomException.class)
     public ResponseEntity<ResponseDTO> handleIdNotFoundException(CustomException customException) {
-        ResponseDTO responseDTO = new ResponseDTO("Exception while searching for employee id", customException.getMessage());
+        ResponseDTO responseDTO = new ResponseDTO("Exception while searching for employee ", customException.getMessage());
         return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND);
 
     }

@@ -18,6 +18,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Autowired
     EmailService emailService;
+
     /*
     here addEmployeePayrollData method use to create new employee data
        first it will check that  all the values passed in dto are null or not
@@ -27,14 +28,15 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     */
     @Override
     public EmployeePayrollData addEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO) {
-        if (employeePayrollDTO.employeeName == null || employeePayrollDTO.departments == null || employeePayrollDTO.salary == null) {
-            throw new CustomException(" Please, enter correct column names ");
-        } else {
+//        if (employeePayrollDTO.name == null || employeePayrollDTO.department == null || employeePayrollDTO.salary == null || employeePayrollDTO.email == null) {          //remove if condition when form added
+//            throw new CustomException(" Please, enter correct column names ");
+//        } else {
             EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
             employeePayrollRepository.save(employeePayrollData);
-            emailService.sendMail(employeePayrollDTO.getEmail(),"Account signup Successfully ","your account has been created on EmployeePayrollService");
+ //         emailService.sendMail(employeePayrollDTO.getEmail(), "Account SignedUp Successfully ", "your account has been created on Employee Payroll Your Details are :\n\n EmployeeId : " + employeePayrollData.getEmpId() + "\n Employee Name : " + employeePayrollData.getEmployeeName() + "\n Employee Departments : " + employeePayrollData.getDepartments() + "\n Employee Salary : " + employeePayrollData.getSalary() + "\n Employee Email : " + employeePayrollData.getEmail() + " .\n\n\n Thanks&regards \n Umesh Maurya \n 7355438834 ");
+        System.out.println(employeePayrollData.toString());
             return employeePayrollData;
-        }
+     //   }
     }
 
     /*
@@ -49,6 +51,35 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     public EmployeePayrollData getEmployeePayrollDataById(Long empId) {
         return employeePayrollRepository.findById(empId).orElseThrow(() -> new CustomException("  Employee id " + empId + " does not exist "));
     }
+
+    /*
+        below method will return data based on employeeName
+        if there are more than one employee with same name it will return
+        all of them.
+        Or not found anything with that name then it will return
+        CustomException with msg :Employee name not found in the list
+    */
+
+    /*@Override
+    public List<EmployeePayrollData> getEmployeePayrollDataByName(String employeeName) {
+        List<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findEmployeeByName(employeeName);
+        if (employeePayrollData.isEmpty()) {
+            return employeePayrollData;
+        } else {
+            throw new CustomException("Employee name not found in list");
+        }
+    }*/
+    @Override
+    public List<EmployeePayrollData> getEmployeePayrollDataByName(String employeeName) {
+        System.out.println("324254 :"+employeeName);
+        List<EmployeePayrollData> employeePayrollData = employeePayrollRepository.findEmployeeByName(employeeName);
+        if (employeePayrollData.isEmpty()) {
+            throw new CustomException("not ffound");
+        } else {
+            return employeePayrollData;
+        }
+    }
+
     /*
     here getAllEmployeePayrollData method will check in to the Data base
        if all employee data is there then it will return all Employee Data as list
@@ -85,8 +116,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
         }
     }
 
-    /*
-    here updateEmployeePayrollDataById method will take empId and EmployeePayrollData from user then,
+    /* here updateEmployeePayrollDataById method will take empId and EmployeePayrollData from user then,
        it will search that id into the Data base
        if it found that id then it will update new data on that particular id
        then it will return msg : Successfully updated Employee id "+empId+" ."
@@ -96,7 +126,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     @Override
     public String updateEmployeePayrollDataById(Long empId, EmployeePayrollDTO employeePayrollDTO) {
         Optional<EmployeePayrollData> employeeData = employeePayrollRepository.findById(empId);
-        if (employeeData.isPresent()) {
+        if (employeeData.isPresent()){
             EmployeePayrollData employeePayrollData = new EmployeePayrollData(employeePayrollDTO);
             employeePayrollData.setEmpId(empId);
             employeePayrollRepository.save(employeePayrollData);
